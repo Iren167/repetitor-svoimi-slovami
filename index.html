@@ -70,11 +70,14 @@
   .bar .v-btn { padding: .72em 1.25em; font-size: var(--v-t-sm); }
   @media (max-width: 1040px) { .tabs a[data-long] { display: none; } }
   @media (max-width: 860px) {
-    .bar { grid-template-columns: auto auto; justify-content: space-between; gap: var(--v-3); }
+    .bar { grid-template-columns: minmax(0, 1fr) auto; justify-content: space-between; gap: var(--v-3); }
     .tabs { display: none; }
     .bar .v-btn { padding: .6em .9em; font-size: .84rem; white-space: nowrap; }
-    .bar__mark { font-size: 1.05rem; }
+    .bar__mark { font-size: 1.05rem; min-width: 0; }
+    .bar__mark span { overflow: hidden; text-overflow: ellipsis; }
   }
+  /* на узких телефонах в шапке короткая надпись: кнопка всегда помещается */
+  @media (max-width: 520px) { .bar__more { display: none; } .bar .v-btn { padding: .62em 1.05em; } }
 
   /* ---- 1 · обложка: стол ученика с задачами (учебники, тетрадь, калькулятор,
           наушники, бланк экзамена) на весь экран. Картинка не кропится по бокам:
@@ -488,7 +491,7 @@
       <a href="#prepod" data-long>Преподаватель</a>
       <a href="#otzyvy" data-long>Отзывы</a>
     </nav>
-    <a class="v-btn" href="https://wa.me/79000000000" target="_blank" rel="noopener">Записаться на пробное</a>
+    <a class="v-btn" href="https://wa.me/79000000000" target="_blank" rel="noopener">Записаться<span class="bar__more"> на пробное</span></a>
   </header>
 
   <main>
