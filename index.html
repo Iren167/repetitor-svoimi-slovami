@@ -418,6 +418,8 @@
   .hero__back { position: absolute; inset: 0; }
   section.hero .hero__copy { position: relative; z-index: 4; left: auto; right: auto; top: auto; bottom: auto; max-width: min(48rem, 56vw); min-height: max(100svh, 40rem); display: flex; flex-direction: column; justify-content: center; padding: 5.5rem var(--v-gutter) 3rem; }
   .hero .tag { opacity: 1; transform: rotate(var(--r, 0deg)); transition: none; }
+  /* подсказка под кнопкой: плотная стеклянная подложка, читается на любом фото */
+  section.hero .hero__hint { background: rgb(255 255 255 / .84); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border: 1px solid rgb(255 255 255 / .9); border-radius: 16px; padding: .7rem 1rem; color: var(--v-ink); max-width: 32ch; box-shadow: var(--v-e1); }
   @media (max-width: 860px) {
     section.hero { display: flex; flex-direction: column; min-height: 0; }
     section.hero .hero__copy { order: 1; max-width: none; min-height: 0; display: block; padding: 5.2rem var(--v-gutter) 1.2rem; }
@@ -465,12 +467,12 @@
   .les2__head p { color: var(--v-ink-soft); max-width: 46ch; text-wrap: pretty; }
   .les2 { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.5fr); gap: var(--v-5); margin-top: var(--v-6); align-items: stretch; }
   .les2__fig { position: relative; border-radius: 24px; overflow: hidden; background: var(--v-surface); box-shadow: var(--v-e1); display: flex; flex-direction: column; min-height: 100%; }
-  .les2__fig img { width: 100%; flex: 1; min-height: 14rem; object-fit: cover; object-position: 68% 50%; }
+  .les2__fig img { width: 100%; flex: 1; min-height: 14rem; object-fit: cover; object-position: 50% 55%; }
   .les2__fig figcaption { padding: var(--v-4) var(--v-5); font-size: var(--v-t-sm); color: var(--v-ink-soft); }
   .les2__fig figcaption b { color: var(--v-ink); font-weight: 600; }
   .les2__cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--v-4); }
   .les2 .card { width: auto; }
-  @media (max-width: 860px) { .les2 { grid-template-columns: 1fr; } .les2__cards { grid-template-columns: 1fr; } .les2__fig img { flex: none; aspect-ratio: 16 / 10; min-height: 0; } }
+  @media (max-width: 860px) { .les2 { grid-template-columns: 1fr; } .les2__cards { grid-template-columns: 1fr; } .les2__fig { max-width: 20rem; width: 100%; justify-self: center; } .les2__fig img { flex: none; aspect-ratio: 3 / 4; min-height: 0; object-position: 50% 50%; } }
 </style>
 </head>
 <body>
@@ -627,7 +629,7 @@
         </div>
         <div class="les2" data-v-in data-v-stagger="70">
           <figure class="les2__fig">
-            <img src="assets/hourglass.webp" alt="Песочные часы, тетрадь и карандаш на столе" width="1600" height="900" loading="lazy">
+            <img src="assets/hourglass.webp" alt="Песочные часы на светлом столе" width="800" height="1452" loading="lazy">
             <figcaption><b>45 минут, онлайн или очно.</b> Перенос за 24 часа – без потери занятия.</figcaption>
           </figure>
           <div class="les2__cards">
