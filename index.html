@@ -434,8 +434,8 @@
   .plan2__note { margin-top: var(--v-6); color: var(--v-ink-soft); font-size: var(--v-t-sm); max-width: 56ch; }
   .plan2__note b { color: var(--v-ink); font-weight: 600; }
   .cf { --cw: min(25rem, 78vw); margin-top: var(--v-7); }
-  .cf__track { position: relative; height: 33rem; overflow: hidden; touch-action: pan-y; outline-offset: 4px; }
-  .cf__card { position: absolute; left: 50%; top: 1rem; width: var(--cw); height: 27rem; padding: 1.5rem; border-radius: 28px; color: #fff; display: flex; flex-direction: column; cursor: pointer; overflow: hidden;
+  .cf__track { position: relative; height: 27rem; overflow: hidden; touch-action: pan-y; outline-offset: 4px; }
+  .cf__card { position: absolute; left: 50%; top: 1rem; width: var(--cw); height: 21rem; padding: 1.5rem; border-radius: 28px; color: #fff; display: flex; flex-direction: column; cursor: pointer; overflow: hidden;
     background: linear-gradient(165deg, #3F69EE 0%, #2447C4 100%); box-shadow: 0 24px 50px rgb(47 91 234 / .3), inset 0 0 0 1px rgb(255 255 255 / .22);
     transform: translateX(calc(-50% + var(--o, 0) * var(--cw) * .78)) scale(var(--s, 1)); opacity: var(--op, 1); z-index: var(--z, 1);
     transition: transform .5s var(--v-ease-out), opacity .5s var(--v-ease-out), filter .5s; filter: saturate(var(--sat, 1)); }
@@ -459,7 +459,7 @@
   .cf__dots { display: flex; gap: .5rem; align-items: center; }
   .cf__dots i { width: .55rem; height: .55rem; border-radius: 800px; background: rgb(47 91 234 / .25); transition: width .3s var(--v-ease-out), background-color .3s; }
   .cf__dots i.on { width: 1.8rem; background: var(--v-accent); }
-  @media (max-width: 860px) { .cf__track { height: 33rem; } .cf__card { height: 27rem; padding: 1.25rem; } }
+  @media (max-width: 860px) { .cf__track { height: 28.5rem; } .cf__card { height: 22.5rem; padding: 1.25rem; } }
   @media (prefers-reduced-motion: reduce) { .cf__card, .cf__dots i { transition: none; } }
 
   /* занятие: обычная сетка */
@@ -574,6 +574,14 @@
         </div>
         <div class="cf" data-cf data-v-in>
           <div class="cf__track" tabindex="0" role="group" aria-roledescription="карусель" aria-label="Этапы плана, листайте стрелками или свайпом">
+          <article class="cf__card" data-i="trial" aria-label="Пробное занятие: знакомство и диагностика">
+            <span class="cf__n" aria-hidden="true">00</span>
+            <p class="cf__week">Пробное занятие</p>
+            <span class="cf__bar" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+            <h3>Знакомство и план</h3>
+            <ul><li>45 минут, онлайн или очно</li><li>Цель, уровень, удобный график</li><li>Первый план – на руках</li></ul>
+            <p class="cf__foot"><b>Пробное: 900 ₽</b><span>Не подошло – просто не продолжаем</span></p>
+          </article>
           <article class="cf__card" data-i="0" aria-label="Недели 1–2: Диагностика и база">
             <span class="cf__n" aria-hidden="true">01</span>
             <p class="cf__week">Недели 1–2</p>
@@ -814,7 +822,7 @@
   // Карусель этапов плана: стрелки, точки, свайп, клавиши, клик по соседней карточке
   (function () {
     var box = document.querySelector('[data-cf]'); if (!box) return;
-    var cards = [].slice.call(box.querySelectorAll('.cf__card')), track = box.querySelector('.cf__track'), dotsEl = box.querySelector('.cf__dots'), cur = 0;
+    var cards = [].slice.call(box.querySelectorAll('.cf__card')), track = box.querySelector('.cf__track'), dotsEl = box.querySelector('.cf__dots'), cur = 1;
     cards.forEach(function (c, i) { var d = document.createElement('i'); dotsEl.appendChild(d); c.addEventListener('click', function () { if (i !== cur) go(i); }); });
     var dots = [].slice.call(dotsEl.children);
     function render() {
