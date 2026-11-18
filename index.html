@@ -412,6 +412,65 @@
   .sep { height: 34px; position: relative; pointer-events: none; }
   .sep::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 26px; background: linear-gradient(to bottom, rgb(47 91 234 / 0), rgb(47 91 234 / .14)); }
   .sep::after { content: ""; position: absolute; left: 0; right: 0; top: 26px; height: 8px; background: linear-gradient(to bottom, rgb(150 165 225 / .6), rgb(190 202 238 / .35)); }
+
+  /* ---- 19.11: первый экран без анимации, карусель этапов, занятие сеткой ------------------ */
+  section.hero { position: relative; min-height: max(100svh, 40rem); overflow: hidden; }
+  .hero__back { position: absolute; inset: 0; }
+  section.hero .hero__copy { position: relative; z-index: 4; left: auto; right: auto; top: auto; bottom: auto; max-width: min(48rem, 56vw); min-height: max(100svh, 40rem); display: flex; flex-direction: column; justify-content: center; padding: 5.5rem var(--v-gutter) 3rem; }
+  .hero .tag { opacity: 1; transform: rotate(var(--r, 0deg)); transition: none; }
+  @media (max-width: 860px) {
+    section.hero { display: flex; flex-direction: column; min-height: 0; }
+    section.hero .hero__copy { order: 1; max-width: none; min-height: 0; display: block; padding: 5.2rem var(--v-gutter) 1.2rem; }
+    section.hero .hero__back { order: 2; position: relative; inset: auto; height: min(66vh, 33rem); }
+    section.hero .hero__back img { left: 0; bottom: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%; -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 22%); mask-image: linear-gradient(to bottom, transparent 0, #000 22%); }
+    section.hero .hero__scrim { display: none; }
+  }
+
+  /* карусель этапов (по пину с доски: центральная карточка крупная, соседние приглушены) */
+  .plan2__head { max-width: 44rem; display: grid; gap: var(--v-4); }
+  .plan2__head p { color: var(--v-ink-soft); max-width: 52ch; text-wrap: pretty; }
+  .plan2__note { margin-top: var(--v-6); color: var(--v-ink-soft); font-size: var(--v-t-sm); max-width: 56ch; }
+  .plan2__note b { color: var(--v-ink); font-weight: 600; }
+  .cf { --cw: min(25rem, 78vw); margin-top: var(--v-7); }
+  .cf__track { position: relative; height: 33rem; overflow: hidden; touch-action: pan-y; outline-offset: 4px; }
+  .cf__card { position: absolute; left: 50%; top: 1rem; width: var(--cw); height: 27rem; padding: 1.5rem; border-radius: 28px; color: #fff; display: flex; flex-direction: column; cursor: pointer; overflow: hidden;
+    background: linear-gradient(165deg, #3F69EE 0%, #2447C4 100%); box-shadow: 0 24px 50px rgb(47 91 234 / .3), inset 0 0 0 1px rgb(255 255 255 / .22);
+    transform: translateX(calc(-50% + var(--o, 0) * var(--cw) * .78)) scale(var(--s, 1)); opacity: var(--op, 1); z-index: var(--z, 1);
+    transition: transform .5s var(--v-ease-out), opacity .5s var(--v-ease-out), filter .5s; filter: saturate(var(--sat, 1)); }
+  .cf__card::before { content: ""; position: absolute; width: 14rem; height: 14rem; right: -5rem; top: -5rem; border-radius: 50%; background: radial-gradient(circle at 35% 30%, rgb(255 255 255 / .38), rgb(255 255 255 / .06) 60%, transparent 70%); pointer-events: none; }
+  .cf__n { position: absolute; right: 1.4rem; top: 1.1rem; font-size: 2.6rem; font-weight: 600; letter-spacing: -.03em; color: rgb(255 255 255 / .28); line-height: 1; }
+  .cf__week { font-size: var(--v-t-sm); font-weight: 600; color: rgb(255 255 255 / .9); }
+  .cf__bar { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; margin-top: var(--v-3); max-width: 11rem; }
+  .cf__bar i { height: 5px; border-radius: 3px; background: rgb(255 255 255 / .26); }
+  .cf__bar i.on { background: #fff; }
+  .cf__card h3 { margin-top: var(--v-5); font-family: var(--v-font-display); font-weight: 600; font-size: clamp(1.35rem, 1.1rem + .7vw, 1.7rem); line-height: 1.15; letter-spacing: -.02em; }
+  .cf__card ul { margin: var(--v-4) 0 1rem; display: grid; gap: .55rem; font-size: var(--v-t-sm); }
+  .cf__card li { position: relative; padding-left: 1.3rem; line-height: 1.35; }
+  .cf__card li::before { content: ""; position: absolute; left: 0; top: .5em; width: .5rem; height: .5rem; border-radius: 50%; background: #fff; opacity: .85; }
+  .cf__foot { margin-top: auto; padding: .9rem 1rem; border-radius: 16px; background: rgb(255 255 255 / .16); display: grid; gap: .2rem; font-size: var(--v-t-xs); line-height: 1.35; }
+  .cf__foot b { font-weight: 600; font-size: var(--v-t-sm); }
+  .cf__foot span { color: rgb(255 255 255 / .85); }
+  .cf__ui { display: flex; align-items: center; justify-content: center; gap: var(--v-4); margin-top: var(--v-4); }
+  .cf__btn { width: 2.75rem; height: 2.75rem; border-radius: 50%; background: rgb(255 255 255 / .7); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border: 1px solid rgb(255 255 255 / .85); box-shadow: var(--v-e1); color: var(--v-accent-deep); font-size: 1.1rem; line-height: 1; cursor: pointer; transition: transform .16s var(--v-ease-out), background-color .16s; }
+  @media (hover: hover) { .cf__btn:hover { background: #fff; transform: scale(1.06); } }
+  .cf__btn:active { transform: scale(.94); }
+  .cf__dots { display: flex; gap: .5rem; align-items: center; }
+  .cf__dots i { width: .55rem; height: .55rem; border-radius: 800px; background: rgb(47 91 234 / .25); transition: width .3s var(--v-ease-out), background-color .3s; }
+  .cf__dots i.on { width: 1.8rem; background: var(--v-accent); }
+  @media (max-width: 860px) { .cf__track { height: 33rem; } .cf__card { height: 27rem; padding: 1.25rem; } }
+  @media (prefers-reduced-motion: reduce) { .cf__card, .cf__dots i { transition: none; } }
+
+  /* занятие: обычная сетка */
+  .les2__head { max-width: 40rem; display: grid; gap: var(--v-4); justify-items: start; }
+  .les2__head p { color: var(--v-ink-soft); max-width: 46ch; text-wrap: pretty; }
+  .les2 { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.5fr); gap: var(--v-5); margin-top: var(--v-6); align-items: stretch; }
+  .les2__fig { position: relative; border-radius: 24px; overflow: hidden; background: var(--v-surface); box-shadow: var(--v-e1); display: flex; flex-direction: column; min-height: 100%; }
+  .les2__fig img { width: 100%; flex: 1; min-height: 14rem; object-fit: cover; object-position: 68% 50%; }
+  .les2__fig figcaption { padding: var(--v-4) var(--v-5); font-size: var(--v-t-sm); color: var(--v-ink-soft); }
+  .les2__fig figcaption b { color: var(--v-ink); font-weight: 600; }
+  .les2__cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--v-4); }
+  .les2 .card { width: auto; }
+  @media (max-width: 860px) { .les2 { grid-template-columns: 1fr; } .les2__cards { grid-template-columns: 1fr; } .les2__fig img { flex: none; aspect-ratio: 16 / 10; min-height: 0; } }
 </style>
 </head>
 <body>
@@ -435,42 +494,29 @@
     <!-- 1 · ОБЛОЖКА: стол ученика с задачами на весь экран (учебники, тетрадь, калькулятор,
          наушники, бланк экзамена) + стикеры-задачи поверх фото. Оффер слева по формуле
          «что + для кого + одно УТП», кнопка над сгибом. Вторая реплика – цена бездействия -->
-    <section id="top" data-v-act="pin" data-v-span="1.9" aria-label="Репетитор: план по этапам">
-      <div data-v-stage>
-        <div class="v-layer hero__back" data-v-parallax="-0.3">
-          <div class="v-fill hero__img">
-            <picture>
-              <source media="(max-width: 860px)" srcset="assets/hero-m.webp">
-              <img src="assets/hero.webp" srcset="assets/hero-1200.webp 1200w, assets/hero.webp 1920w" sizes="100vw" alt="Стол ученика: учебники, тетрадь с ручкой, калькулятор, наушники и бланк экзамена" width="1920" height="1080" fetchpriority="high">
-            </picture>
-          </div>
-        </div>
-        <div class="hero__scrim" aria-hidden="true"></div>
-
-        <!-- стикеры-задачи: с чем приходят. Позиции в % сцены, поворот – как записка на столе -->
-        <ul class="tags" data-v-cue="0 0.5 0 0.1" data-v-rise="0" aria-label="С чем приходят: ЕГЭ, ОГЭ, английский, математика, школа, институт">
-          <li class="tag" style="--x: 74%; --y: 86%; --r: -5deg; --i: 0">ЕГЭ</li>
-          <li class="tag" style="--x: 86%; --y: 74%; --r: 4deg; --i: 1">ОГЭ</li>
-          <li class="tag" style="--x: 66%; --y: 14%; --r: 3deg; --i: 2">английский</li>
-          <li class="tag" style="--x: 84%; --y: 34%; --r: -3deg; --i: 3">математика</li>
-          <li class="tag" style="--x: 58%; --y: 72%; --r: 2deg; --i: 4">школа</li>
-          <li class="tag" style="--x: 55%; --y: 34%; --r: -4deg; --i: 5">институт</li>
-        </ul>
-
-        <div class="v-copy v-copy--lead hero__copy" data-v-cue="0 0.5 0 0.1">
-          <p class="hero__label">Онлайн и очно в Томске</p>
-          <h1 class="v-display v-display--xl" data-v-kinetic="lines">Репетитор по английскому школьникам и студентам: план по этапам</h1>
-          <p class="v-lede">Пробное занятие, план на 8 недель и цена за занятие или пакет – всё известно до оплаты.</p>
-          <div class="hero__cta">
-            <a class="v-btn" href="https://wa.me/79000000000" target="_blank" rel="noopener" data-v-magnet="0.2" data-v-rise="0">Записаться на пробное</a>
-            <p class="hero__hint">Пробное – 45 минут, <b>900&nbsp;₽</b>. После него план и цена, потом решение.</p>
-          </div>
-        </div>
-
-        <div class="v-copy v-copy--lead hero__turn" data-v-cue="0.5 1 0.08 0">
-          <p class="hero__label">Почему уходят через месяц</p>
-          <h2 class="v-display">Без плана занятие – это «поговорили и разошлись»</h2>
-          <p class="v-lede">Через месяц ученик не видит, куда идёт, и уходит. <b>Поэтому порядок такой:</b> пробное, план на 8 недель по этапам, и только потом оплата.</p>
+    <section id="top" class="hero" aria-label="Репетитор: план по этапам">
+      <div class="hero__back">
+        <picture>
+          <source media="(max-width: 860px)" srcset="assets/hero-m.webp">
+          <img src="assets/hero.webp" srcset="assets/hero-1200.webp 1200w, assets/hero.webp 1920w" sizes="100vw" alt="Стол ученика: учебники, тетрадь с ручкой, калькулятор, очки и бланк" width="1920" height="1080" fetchpriority="high">
+        </picture>
+      </div>
+      <div class="hero__scrim" aria-hidden="true"></div>
+      <ul class="tags" aria-label="С чем приходят: ЕГЭ, ОГЭ, английский, математика, школа, институт">
+        <li class="tag" style="--x: 74%; --y: 86%; --r: -5deg">ЕГЭ</li>
+        <li class="tag" style="--x: 86%; --y: 74%; --r: 4deg">ОГЭ</li>
+        <li class="tag" style="--x: 66%; --y: 14%; --r: 3deg">английский</li>
+        <li class="tag" style="--x: 84%; --y: 34%; --r: -3deg">математика</li>
+        <li class="tag" style="--x: 58%; --y: 72%; --r: 2deg">школа</li>
+        <li class="tag" style="--x: 55%; --y: 34%; --r: -4deg">институт</li>
+      </ul>
+      <div class="hero__copy">
+        <p class="hero__label">Онлайн и очно в Томске</p>
+        <h1 class="v-display v-display--xl">Репетитор по <span class="hl">английскому</span> школьникам и студентам: план по этапам</h1>
+        <p class="v-lede">Пробное занятие, план на 8 недель и цена за занятие или пакет – всё известно до оплаты.</p>
+        <div class="hero__cta">
+          <a class="v-btn" href="https://wa.me/79000000000" target="_blank" rel="noopener">Записаться на пробное</a>
+          <p class="hero__hint">Пробное – 45 минут, <b>900&nbsp;₽</b>. После него план и цена, потом решение.</p>
         </div>
       </div>
     </section>
@@ -517,151 +563,74 @@
 
     <div class="sep" aria-hidden="true"></div>
     <!-- 3 · ПЛАН: тетрадь, которую листаешь. Фирменный ход: листы вращаются от --v-p, без JS -->
-    <section data-v-act="pin" data-v-span="2.5" id="plan" aria-label="План на 8 недель">
-      <div data-v-stage>
-        <div class="plan">
-          <div class="plan__copy" data-v-cue="0 1 0 0" data-v-rise="0">
-            <span class="v-label">План</span>
-            <h2 class="v-display">План на 8&nbsp;недель, а не абонемент на «поговорить»</h2>
-            <p>После пробного занятия вы получаете тетрадь: четыре этапа по две недели, что делаем на занятиях и что дома. Вот она, страница за страницей.</p>
-            <ol class="stages" aria-label="Этапы плана">
-              <li style="--a: .09; --b: .39"><small>Недели 1–2</small><span>Диагностика и база</span></li>
-              <li style="--a: .39; --b: .65"><small>Недели 3–4</small><span>Главные темы</span></li>
-              <li style="--a: .65; --b: .90"><small>Недели 5–6</small><span>Практика и скорость</span></li>
-              <li style="--a: .90; --b: 1.2"><small>Недели 7–8</small><span>Пробный экзамен и разбор</span></li>
-            </ol>
-            <p class="plan__note"><b>Каждые две недели – короткий итог:</b> что закрыли, что переносим. Родитель видит план целиком, а не «занимаемся».</p>
-          </div>
-
-          <div class="nb" aria-label="Тетрадь с планом на 8 недель" role="img">
-            <div class="nb__base" aria-hidden="true"></div>
-
-            <!-- листы: --a/--b – окно поворота по прогрессу акта; последний лист не переворачивается -->
-            <div class="leaf" style="--i: 4; --a: .84; --b: .96" aria-hidden="true">
-              <div class="leaf__face leaf__front">
-                <p class="pg__week">Недели 5–6</p>
-                <p class="pg__title">Практика и скорость</p>
-                <ul class="pg__lines">
-                  <li>Задания на время</li>
-                  <li>Ошибки – в отдельный список</li>
-                  <li>Диалог или эссе каждое занятие</li>
-                </ul>
-                <p class="pg__hw"><b>Дома:</b> 20 минут в день</p>
-              </div>
-              <div class="leaf__face leaf__back">
-                <p class="pg__note">Итог недель 5–6</p>
-                <ul class="pg__lines">
-                  <li>Что закрыли</li>
-                  <li>Что переносим в 7–8</li>
-                </ul>
-                <p class="pg__hw">Сообщение родителю в тот же день</p>
-              </div>
-            </div>
-
-            <div class="leaf" style="--i: 5; --a: 1.5; --b: 1.6" aria-hidden="true">
-              <div class="leaf__face leaf__front">
-                <p class="pg__week">Недели 7–8</p>
-                <p class="pg__title">Пробный экзамен и разбор</p>
-                <ul class="pg__lines">
-                  <li>Пробник в формате экзамена</li>
-                  <li>Разбор по пунктам</li>
-                  <li>Что дальше: план на следующие 8</li>
-                </ul>
-                <p class="pg__hw"><b>Дома:</b> повторить список ошибок</p>
-              </div>
-              <div class="leaf__face leaf__back"></div>
-            </div>
-
-            <div class="leaf" style="--i: 3; --a: .58; --b: .72" aria-hidden="true">
-              <div class="leaf__face leaf__front">
-                <p class="pg__week">Недели 3–4</p>
-                <p class="pg__title">Главные темы</p>
-                <ul class="pg__lines">
-                  <li>Одна тема за занятие</li>
-                  <li>Правило, примеры, проверка</li>
-                  <li>Слова только по теме</li>
-                </ul>
-                <p class="pg__hw"><b>Дома:</b> 20 минут в день</p>
-              </div>
-              <div class="leaf__face leaf__back">
-                <p class="pg__note">Итог недель 3–4</p>
-                <ul class="pg__lines">
-                  <li>Что закрыли</li>
-                  <li>Что переносим в 5–6</li>
-                </ul>
-                <p class="pg__hw">Сообщение родителю в тот же день</p>
-              </div>
-            </div>
-
-            <div class="leaf" style="--i: 2; --a: .32; --b: .46" aria-hidden="true">
-              <div class="leaf__face leaf__front">
-                <p class="pg__week">Недели 1–2</p>
-                <p class="pg__title">Диагностика и база</p>
-                <ul class="pg__lines">
-                  <li>Что знает, где путается</li>
-                  <li>Цель и дата: экзамен, поездка, четверть</li>
-                  <li>Первое домашнее</li>
-                </ul>
-                <p class="pg__hw"><b>Дома:</b> 15 минут в день</p>
-              </div>
-              <div class="leaf__face leaf__back">
-                <p class="pg__note">Итог недель 1–2</p>
-                <ul class="pg__lines">
-                  <li>Что закрыли</li>
-                  <li>Что переносим в 3–4</li>
-                </ul>
-                <p class="pg__hw">Сообщение родителю в тот же день</p>
-              </div>
-            </div>
-
-            <div class="leaf leaf--cover" style="--i: 1; --a: .02; --b: .16" aria-hidden="true">
-              <div class="leaf__face leaf__front">
-                <div class="cover__label">
-                  <b>План на 8 недель</b>
-                  <span>Предмет: <i>английский</i></span>
-                  <span>Ученик:</span>
-                  <span>Цель:</span>
-                </div>
-                <p class="cover__brand">Своими словами · тетрадь</p>
-              </div>
-              <div class="leaf__face leaf__back">
-                <p class="pg__note">Как читать</p>
-                <div class="pg__blank">
-                  <span>Занятий в неделю<i>1</i></span>
-                  <span>Дома в день<i>20 минут</i></span>
-                  <span>Итог каждые<i>2 недели</i></span>
-                </div>
-                <p class="pg__hw">Пробное занятие – до плана</p>
-              </div>
-            </div>
-
-            <span class="nb__staple nb__staple--a" aria-hidden="true"></span>
-            <span class="nb__staple nb__staple--b" aria-hidden="true"></span>
-                  </div>
+    <section class="v-section v-section--tight" data-v-act="flow" id="plan" aria-label="План на 8 недель">
+      <div class="v-wrap">
+        <div class="plan2__head" data-v-in data-v-stagger="60">
+          <span class="v-label">План</span>
+          <h2 class="v-display v-display--md">План на 8&nbsp;недель, а не абонемент на «поговорить»</h2>
+          <p>Без плана занятие – это «поговорили и разошлись». После пробного вы получаете четыре этапа по две недели: что делаем на занятиях и что дома.</p>
         </div>
+        <div class="cf" data-cf data-v-in>
+          <div class="cf__track" tabindex="0" role="group" aria-roledescription="карусель" aria-label="Этапы плана, листайте стрелками или свайпом">
+          <article class="cf__card" data-i="0" aria-label="Недели 1–2: Диагностика и база">
+            <span class="cf__n" aria-hidden="true">01</span>
+            <p class="cf__week">Недели 1–2</p>
+            <span class="cf__bar" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+            <h3>Диагностика и база</h3>
+            <ul><li>Что знаешь, где путаешься</li><li>Цель и дата: экзамен, поездка, четверть</li><li>Первое домашнее</li></ul>
+            <p class="cf__foot"><b>Дома: 15 минут в день</b><span>Итог: что закрыли, что переносим</span></p>
+          </article>
+          <article class="cf__card" data-i="1" aria-label="Недели 3–4: Главные темы">
+            <span class="cf__n" aria-hidden="true">02</span>
+            <p class="cf__week">Недели 3–4</p>
+            <span class="cf__bar" aria-hidden="true"><i></i><i></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i></span>
+            <h3>Главные темы</h3>
+            <ul><li>Одна тема за занятие</li><li>Правило, примеры, проверка</li><li>Слова только по теме</li></ul>
+            <p class="cf__foot"><b>Дома: 20 минут в день</b><span>Итог: что закрыли, что переносим</span></p>
+          </article>
+          <article class="cf__card" data-i="2" aria-label="Недели 5–6: Практика и скорость">
+            <span class="cf__n" aria-hidden="true">03</span>
+            <p class="cf__week">Недели 5–6</p>
+            <span class="cf__bar" aria-hidden="true"><i></i><i></i><i></i><i></i><i class="on"></i><i class="on"></i><i></i><i></i></span>
+            <h3>Практика и скорость</h3>
+            <ul><li>Задания на время</li><li>Ошибки – в отдельный список</li><li>Диалог или эссе каждое занятие</li></ul>
+            <p class="cf__foot"><b>Дома: 20 минут в день</b><span>Итог: что закрыли, что переносим</span></p>
+          </article>
+          <article class="cf__card" data-i="3" aria-label="Недели 7–8: Пробный экзамен и разбор">
+            <span class="cf__n" aria-hidden="true">04</span>
+            <p class="cf__week">Недели 7–8</p>
+            <span class="cf__bar" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i class="on"></i><i class="on"></i></span>
+            <h3>Пробный экзамен и разбор</h3>
+            <ul><li>Пробник в формате экзамена</li><li>Разбор ошибок</li><li>План на следующие недели</li></ul>
+            <p class="cf__foot"><b>Дома: повторить слабые темы</b><span>Итог: что закрыли, что дальше</span></p>
+          </article>
+          </div>
+          <div class="cf__ui">
+            <button type="button" class="cf__btn" data-cf-prev aria-label="Предыдущий этап">←</button>
+            <div class="cf__dots" aria-hidden="true"></div>
+            <button type="button" class="cf__btn" data-cf-next aria-label="Следующий этап">→</button>
+          </div>
+        </div>
+        <p class="plan2__note"><b>Каждые две недели – короткий итог:</b> что закрыли, что переносим. Родитель видит план целиком, а не «занимаемся».</p>
       </div>
     </section>
 
     <div class="sep" aria-hidden="true"></div>
     <!-- 4 · ЗАНЯТИЕ ПО МИНУТАМ: лента. На тач – горизонтальная прокрутка пальцем -->
-    <section data-v-act="pan" data-v-span="2.2" id="zanyatie" aria-label="Как проходит занятие">
-      <div data-v-stage>
-        <div class="les">
-          <div class="les__rail" data-v-pan="0.03">
-            <div class="card card--intro" data-v-cue="0 1 0 0" data-v-rise="0">
-              <span class="v-label">Занятие</span>
-              <h2 class="v-display">45 минут по минутам</h2>
-              <p>Каждое занятие идёт по одной схеме: ученик знает, что будет, родитель – что было.</p>
-              <a class="v-btn" href="https://wa.me/79000000000" target="_blank" rel="noopener">Записаться на пробное</a>
-            </div>
-
-            <div class="card card--photo">
-              <figure>
-                <img src="assets/hourglass.webp" alt="Песочные часы, тетрадь и карандаш на столе" width="1600" height="900" loading="lazy">
-                <figcaption><b>45 минут, онлайн или очно.</b> Перенос за 24 часа – без потери занятия.</figcaption>
-              </figure>
-            </div>
-
+    <section class="v-section v-section--tight" data-v-act="flow" id="zanyatie" aria-label="Как проходит занятие">
+      <div class="v-wrap">
+        <div class="les2__head" data-v-in data-v-stagger="60">
+          <span class="v-label">Занятие</span>
+          <h2 class="v-display v-display--md">45 минут по минутам</h2>
+          <p>Каждое занятие идёт по одной схеме: ученик знает, что будет, родитель – что было.</p>
+          <a class="v-btn" href="https://wa.me/79000000000" target="_blank" rel="noopener">Записаться на пробное</a>
+        </div>
+        <div class="les2" data-v-in data-v-stagger="70">
+          <figure class="les2__fig">
+            <img src="assets/hourglass.webp" alt="Песочные часы, тетрадь и карандаш на столе" width="1600" height="900" loading="lazy">
+            <figcaption><b>45 минут, онлайн или очно.</b> Перенос за 24 часа – без потери занятия.</figcaption>
+          </figure>
+          <div class="les2__cards">
             <div class="card">
               <span class="seg" style="--from: 0; --to: 5" aria-hidden="true"></span>
               <p class="card__min">0–5 минут</p>
@@ -669,7 +638,6 @@
               <p>Смотрим, что получилось. Ошибки разбираем сразу, а не «потом посмотрим».</p>
               <p class="card__who"><b>Ученик:</b> видит, что домашнее проверяют, и делает его.</p>
             </div>
-
             <div class="card">
               <span class="seg" style="--from: 5; --to: 25" aria-hidden="true"></span>
               <p class="card__min">5–25 минут</p>
@@ -677,7 +645,6 @@
               <p>Правило, три примера, проверочный вопрос. Одна тема за занятие, не пять сразу.</p>
               <p class="card__who"><b>Ученик:</b> уходит с одной вещью, которую понял до конца.</p>
             </div>
-
             <div class="card">
               <span class="seg" style="--from: 25; --to: 40" aria-hidden="true"></span>
               <p class="card__min">25–40 минут</p>
@@ -685,7 +652,6 @@
               <p>Ученик делает сам: упражнение, диалог или задание из экзамена. Подсказываю, а не решаю за него.</p>
               <p class="card__who"><b>Ученик:</b> говорит и пишет больше, чем слушает.</p>
             </div>
-
             <div class="card">
               <span class="seg" style="--from: 40; --to: 45" aria-hidden="true"></span>
               <p class="card__min">40–45 минут</p>
@@ -840,10 +806,34 @@
 <script>
   // На телефоне пины короче: data-v-span правим до монтирования.
   if (window.matchMedia('(max-width: 860px)').matches) {
-    document.getElementById('top').setAttribute('data-v-span', '1.6');
-    document.getElementById('plan').setAttribute('data-v-span', '2.3');
     document.getElementById('zapis').setAttribute('data-v-span', '1.3');
   }
+
+  // Карусель этапов плана: стрелки, точки, свайп, клавиши, клик по соседней карточке
+  (function () {
+    var box = document.querySelector('[data-cf]'); if (!box) return;
+    var cards = [].slice.call(box.querySelectorAll('.cf__card')), track = box.querySelector('.cf__track'), dotsEl = box.querySelector('.cf__dots'), cur = 0;
+    cards.forEach(function (c, i) { var d = document.createElement('i'); dotsEl.appendChild(d); c.addEventListener('click', function () { if (i !== cur) go(i); }); });
+    var dots = [].slice.call(dotsEl.children);
+    function render() {
+      cards.forEach(function (c, i) {
+        var o = i - cur, a = Math.abs(o);
+        c.style.setProperty('--o', o); c.style.setProperty('--s', a === 0 ? 1 : a === 1 ? .86 : .74);
+        c.style.setProperty('--op', a === 0 ? 1 : a === 1 ? .6 : 0); c.style.setProperty('--z', 10 - a); c.style.setProperty('--sat', a === 0 ? 1 : .75);
+        c.setAttribute('aria-current', a === 0 ? 'true' : 'false');
+      });
+      dots.forEach(function (d, i) { d.classList.toggle('on', i === cur); });
+    }
+    function go(i) { cur = Math.max(0, Math.min(cards.length - 1, i)); render(); }
+    box.querySelector('[data-cf-prev]').addEventListener('click', function () { go(cur - 1); });
+    box.querySelector('[data-cf-next]').addEventListener('click', function () { go(cur + 1); });
+    track.addEventListener('keydown', function (e) { if (e.key === 'ArrowLeft') { go(cur - 1); e.preventDefault(); } if (e.key === 'ArrowRight') { go(cur + 1); e.preventDefault(); } });
+    var x0 = null;
+    track.addEventListener('pointerdown', function (e) { x0 = e.clientX; });
+    track.addEventListener('pointerup', function (e) { if (x0 === null) return; var dx = e.clientX - x0; x0 = null; if (Math.abs(dx) > 40) go(cur + (dx < 0 ? 1 : -1)); });
+    track.addEventListener('pointercancel', function () { x0 = null; });
+    render();
+  })();
   Vibe.mount(document.querySelector('.v-page'));
 
   // Чек на занятия: выбор формата пересчитывает цену, экономию и итог
@@ -868,8 +858,6 @@
       });
     });
   })();
-  // Слово на красной «таблетке»: kinetic разбирает h1 на слова, поэтому класс ставим после монтирования
-  document.querySelectorAll('.hero__copy h1 .v-ki').forEach(function (w) { if (w.textContent.trim() === 'английскому') w.classList.add('hl'); });
   // Фирменный ход «тетрадь, которую листаешь» живёт в CSS: каждый лист считает --f от --v-p акта
   // (переменная наследуется с секции) и поворачивается rotateY вокруг корешка. JS не нужен.
 </script>
